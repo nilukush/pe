@@ -1,0 +1,31 @@
+{
+  "name": "pe",
+  "version": "1.0.0",
+  "description": "Pocket explorer (based on tags)",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nilukush/pe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nilukush/pe/issues"
+  },
+  "homepage": "https://github.com/nilukush/pe#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "electron": "^24.3.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.1.1",
+    "path-browserify": "^1.0.1",
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1"
+  }
+}
