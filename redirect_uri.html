@@ -1,0 +1,20 @@
+<!-- redirect_uri.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Redirect URI</title>
+</head>
+
+<body>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestToken = urlParams.get('request_token');
+        const { ipcRenderer } = require('electron');
+        ipcRenderer.send('requestToken', requestToken);
+        window.close();
+    </script>
+</body>
+
+</html>
