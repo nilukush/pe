@@ -1,7 +1,6 @@
-const { app, BrowserWindow, ipcMain, shell, protocol } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const axios = require('axios');
 const http = require('http');
-const url = require('url');
 const path = require('path');
 const fs = require('fs');
 
@@ -47,13 +46,15 @@ function createWindow() {
   // Handle the authenticate event from the renderer process
   ipcMain.handle('authenticate', async (event) => {
     try {
-      const response = await axios.post('http://127.0.0.1:8080/authenticate');
+      const redirectUri = `http://localhost:8081/redirect_uri.html`; // Specify the redirect_uri here
+
+      const response = await axios.post('http://127.0.0.1:8080/authenticate', { redirect_uri: redirectUri });
       console.log(response.data);
       const requestToken = response.data.request_token.code;
       savedRequestToken = requestToken;
-      const redirectUri = `http://localhost:8081/redirect_uri.html?request_token=${requestToken}`;
+      const redirectUrl = `http://localhost:8081/redirect_uri.html?request_token=${requestToken}`;
       console.log('Request Token:', requestToken);
-      console.log('Redirect URI:', redirectUri);
+      console.log('Redirect URI:', redirectUrl);
 
       // Create a new BrowserWindow for the authorization URL
       const authWindow = new BrowserWindow({
@@ -63,7 +64,7 @@ function createWindow() {
           contextIsolation: true,
         },
       });
-      authWindow.loadURL(`https://getpocket.com/auth/authorize?request_token=${requestToken}&redirect_uri=${redirectUri}`);
+      authWindow.loadURL(`https://getpocket.com/auth/authorize?request_token=${requestToken}&redirect_uri=${redirectUrl}`);
 
       // Handle the navigation in the authWindow
       authWindow.webContents.on('did-navigate', (event, url) => {
@@ -80,6 +81,34 @@ function createWindow() {
       });
     } catch (error) {
       console.error(error);
+    }
+  });
+
+  // Handle the saveAccessToken event from the renderer process
+  ipcMain.handle('saveAccessToken', async (event, requestToken) => {
+    try {
+      // Make the save-access-token API call with the requestToken
+      const response = await axios.post('http://127.0.0.1:8080/save-access-token', { request_token: requestToken });
+
+      console.log('save-access-token response:', response.data);
+
+      // Return the response to the renderer process
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  });
+
+  ipcMain.on('saveResponseToStorage', (event, response) => {
+    try {
+      // Implement your code to save the response to permanent storage here
+      // For example, you can use the Node.js File System module to write the response to a file
+      const filePath = 'response.json';
+      fs.writeFileSync(filePath, JSON.stringify(response));
+      console.log('Response saved to storage:', response);
+    } catch (error) {
+      console.error('Error saving response to storage:', error);
     }
   });
 }

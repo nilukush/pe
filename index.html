@@ -4,10 +4,45 @@
 <head>
   <meta charset="UTF-8">
   <title>Pocket Explorer</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-image: url("background-image.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #authenticateButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      /* Increase the font size */
+      padding: 20px 40px;
+      /* Adjust the padding to increase button size */
+      background-color: #ef4056;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #authenticateButton img {
+      margin-right: 8px;
+    }
+  </style>
 </head>
 
 <body>
-  <button id="authenticateButton">Connect your Pocket account</button>
+  <button id="authenticateButton">
+    <img src="pocket-logo.png" alt="Pocket Logo" width="24" height="24">
+    Connect your Pocket account
+  </button>
   <script src="renderer.js"></script>
 </body>
 
