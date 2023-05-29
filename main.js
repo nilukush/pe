@@ -11,6 +11,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    fullscreen: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -18,7 +19,22 @@ function createWindow() {
     },
   });
 
-  win.loadFile('index.html');
+  // Read response.json file
+  const responseFilePath = path.join(__dirname, 'response.json');
+  let response;
+  try {
+    response = JSON.parse(fs.readFileSync(responseFilePath, 'utf-8'));
+  } catch (error) {
+    response = null;
+  }
+
+  if (response && response.access_token_response && response.access_token_response.access_token && response.access_token_response.username) {
+    // Access token and username present in response.json
+    win.loadFile('home_page.html');
+  } else {
+    // Access token and username not present, proceed with authentication flow
+    win.loadFile('index.html');
+  }
 
   redirectUriWindow = new BrowserWindow({
     show: false,
@@ -110,6 +126,19 @@ function createWindow() {
     } catch (error) {
       console.error('Error saving response to storage:', error);
     }
+  });
+
+  // Handle the deleteResponseFile event from the renderer process
+  ipcMain.on('deleteResponseFile', (event) => {
+    const responseFile = path.join(__dirname, 'response.json');
+    fs.unlink(responseFile, (err) => {
+      if (err) {
+        console.error(err);
+        event.sender.send('responseFileDeleted', { success: false, error: err });
+        return;
+      }
+      event.sender.send('responseFileDeleted', { success: true });
+    });
   });
 }
 

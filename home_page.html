@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pocket Explorer - Home Page</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url("background-image.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('./fonts/Poppins-Black.ttf');
+        }
+
+        @font-face {
+            font-family: 'CustomFont-Light';
+            src: url('./fonts/Poppins-Light.ttf');
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            padding: 16px;
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            background-color: #333333;
+        }
+
+        .header img {
+            width: 48px;
+            height: 48px;
+            margin-right: 16px;
+            cursor: pointer;
+        }
+
+        .menu {
+            position: fixed;
+            top: 80px;
+            /* Adjust the top position as needed */
+            right: 0;
+            z-index: 1;
+            background-color: #333333;
+            display: none;
+            /* Hide the menu by default */
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .menu a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            padding: 8px;
+            font-family: 'CustomFont-Light', sans-serif;
+            font-weight: bold;
+        }
+
+        .menu a:hover {
+            background-color: #555555;
+        }
+
+        .header:hover .menu {
+            display: block;
+        }
+
+        h1 {
+            font-family: 'CustomFont';
+            font-size: 48px;
+            text-align: center;
+            color: #333333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="menu" id="menu">
+            <a href="#" id="logout-link">Logout</a>
+        </div>
+        <img src="account-icon.png" alt="Account Icon" id="account-icon">
+    </div>
+    <h1>You are already authenticated!</h1>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>

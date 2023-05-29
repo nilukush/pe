@@ -11,9 +11,19 @@ contextBridge.exposeInMainWorld('electronIPC', {
         }
     },
     on: (channel, callback) => {
-        ipcRenderer.on(channel, callback);
+        ipcRenderer.on(channel, (event, ...args) => callback(event, ...args));
     },
     send: (channel, data) => {
         ipcRenderer.send(channel, data);
+    },
+    shell: {
+        openExternal: (url) => {
+            ipcRenderer.send('openExternalURL', url);
+        },
+    },
+    remote: {
+        getCurrentWindow: () => {
+            return ipcRenderer.sendSync('getCurrentWindow');
+        },
     },
 });

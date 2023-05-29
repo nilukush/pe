@@ -35,6 +35,31 @@
     #authenticateButton img {
       margin-right: 8px;
     }
+
+    .loader {
+      position: absolute;
+      display: none;
+      z-index: 9999;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 4px solid #ffffff;
+      border-top-color: rgba(255, 255, 255, 0.4);
+      animation: spin 1s infinite ease-in-out;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 
@@ -44,6 +69,7 @@
     Connect your Pocket account
   </button>
   <script src="renderer.js"></script>
+  <div id="loader"></div>
 </body>
 
 </html>
